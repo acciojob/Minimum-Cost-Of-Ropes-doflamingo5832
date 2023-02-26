@@ -1,24 +1,35 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-</head>
-
-<body>
-    <form>
-        <label for="rope-lengths">Enter rope lengths:</label>
-        <input type="text" id="rope-lengths">
-        <button type="button" onclick="calculateMinCost()">Calculate</button>
-      </form>
-      <div id="result"></div>
-
 <script>
-    type="text/javascript" src="./script.js"
+function findMinimumCost() {
+  // Get the input element and extract the rope lengths
+  var input = document.getElementById("rope-lengths").value;
+  var ropeLengths = input.split(",").map(Number);
 
-  </script>
-  
+  // Sort the rope lengths in non-decreasing order
+  ropeLengths.sort(function(a, b){return a - b});
 
-</body>
+  // Initialize the minimum cost and current cost
+  var minCost = 0;
+  var currentCost = 0;
 
-</html>
+  // Connect the ropes in pairs until there is only one rope left
+  while (ropeLengths.length > 1) {
+    currentCost = ropeLengths[0] + ropeLengths[1];
+    minCost += currentCost;
+    ropeLengths.splice(0, 2, currentCost);
+    ropeLengths.sort(function(a, b){return a - b});
+  }
+
+  // Display the minimum cost in the result div
+  document.getElementById("result").innerHTML = "Minimum cost of connecting the ropes: " + minCost;
+}
+</script>
+
+<!-- HTML form for input and button to trigger function -->
+<form>
+  <label for="rope-lengths">Enter the lengths of ropes (comma-separated):</label><br>
+  <input type="text" id="rope-lengths" name="rope-lengths"><br>
+  <input type="button" value="Find Minimum Cost" onclick="findMinimumCost()">
+</form>
+
+<!-- Div element to display the result -->
+<div id="result"></div>
